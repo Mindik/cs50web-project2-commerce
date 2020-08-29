@@ -1,0 +1,120 @@
+{% extends "auctions/layout.html" %}
+
+{% block title %}
+    Listing
+{% endblock %}
+
+{% block body %}
+    {% if listing.author == user and user.is_authenticated and listing.open %}
+        {{ checkUserCreate }}
+        <div class="listing_footer">
+            <form action="{% url 'closeAuction' id_listing=listing.id %}" method="post">
+                {% csrf_token %}
+                <button class="btn btn-primary" type="submit">Close auction</button>
+            </form>
+        </div>
+    {% elif user.is_authenticated and not listing.open %}
+        <div class="listing_footer">
+            {% if listing.win.id == user.id %}
+                <div class="alert alert-success" style="text-align: center" role="alert">
+                    Auction closed. You win!
+                </div>
+            {% else %}
+                <div class="alert alert-success" style="text-align: center" role="alert">
+                    Auction closed.
+                </div>
+            {% endif %}
+        </div>
+    {% endif %}
+
+    <h2 class="title_page">{{ listing.title }}</h2>
+
+    <div class="row">
+        <div class="col">{% if listing.open %}
+            <span class="badge badge-success">Open</span>
+        {% else %}
+            <span class="badge badge-warning">Close</span>
+        {% endif %}</div>
+        {% if user.is_authenticated %}
+            <div class="col">
+                {% if del %}
+                    <form action="{% url 'watchlistListing' id_listing=listing.id %}" class="watchList" method="post">
+                        {% csrf_token %}
+                        <button class="badge badge-success btn_watchlist" type="submit">Watchlist</button>
+                    </form>
+                {% else %}
+                    <form action="{% url 'watchlistListing' id_listing=listing.id %}" class="watchList" method="post">
+                        {% csrf_token %}
+                        <button class="badge badge-info btn_watchlist" type="submit">Watchlist</button>
+                    </form>
+                {% endif %}
+            </div>
+        {% endif %}
+    </div>
+    <img class="foto_listing" src="{{ listing.url_img }}" alt="">
+    <div class="row">
+        <div class="col text_listing">
+            {{ listing.text_base|linebreaksbr }}
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col text_start_price">
+            <strong>Start price: ${{ listing.start_bid }}</strong>
+        </div>
+        <div class="col text_bet">
+            {% if user.is_authenticated %}
+                <strong>Number of bets:</strong> {{ countListBet }}
+            {% endif %}
+        </div>
+        <div class="col text_max_price">
+            {% if countListBet > 0 %}
+                <strong>Max bet: ${{ listing.max_bet }}</strong>
+            {% endif %}
+        </div>
+    </div>
+    <hr>
+    <div>
+        <strong>Categories:</strong>
+        {% for category in listing.category.all %}
+            <a href="{% url 'categories' title_cat=category.cat %}">{{ category.cat }}</a>
+        {% endfor %}
+    </div>
+    <div>
+        <strong>Listed by:</strong> {{ listing.author.username }}
+    </div>
+
+    {% if checkBetUser|length == 0 and user.is_authenticated and listing.author.id != user.id %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.extra_tags }}" role="alert">
+                {{ message }}
+            </div>
+        {% endfor %}
+        <form action="{% url 'addBet' id_listing=listing.id %}" method="post">
+            {% csrf_token %}
+            {{ formBet }}
+            <button class="btn btn-primary" type="submit">Set Bet</button>
+        </form>
+    {% endif %}
+    <hr>
+    {% if user.is_authenticated and listing.open %}
+        <form action="{% url 'addComment' id_listing=listing.id %}" class="form_comment" method="post">
+            {% csrf_token %}
+            {{ form }}
+            <button class="btn btn-primary" type="submit">Add comment</button>
+        </form>
+    {% endif %}
+    {% for comment in listComments %}
+        <div class="card col-8 card_comment">
+            <div class="card-header">
+                Comment by: {{ comment.id_user.username }}
+            </div>
+            <div class="card-body">
+                <blockquote class="blockquote mb-0">
+                    <p>{{ comment.text }}</p>
+                    <footer class="blockquote-footer"><cite title="Source Title">{{ comment.create_date }}</cite></footer>
+                </blockquote>
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}

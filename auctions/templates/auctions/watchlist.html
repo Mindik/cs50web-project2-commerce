@@ -1,0 +1,15 @@
+{% extends "auctions/layout.html" %}
+
+{% block title %}
+    Watchlist
+{% endblock %}
+
+{% block body %}
+    <h2 class="title_page">Watchlist</h2>
+    {% for list in page_objects.object_list %}
+        {% with listing=list.id_listing %}
+            {% include "auctions/includes/card.html" %}
+        {% endwith %}
+    {% endfor %}
+    {% include "auctions/includes/pagination.html" %}
+{% endblock %}

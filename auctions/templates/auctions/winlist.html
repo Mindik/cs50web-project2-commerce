@@ -1,0 +1,13 @@
+{% extends "auctions/layout.html" %}
+
+{% block title %}
+    Winlist
+{% endblock %}
+
+{% block body %}
+    <h2 class="title_page">Winlist</h2>
+    {% for listing in page_objects.object_list %}
+        {% include "auctions/includes/card.html" %}
+    {% endfor %}
+    {% include "auctions/includes/pagination.html" %}
+{% endblock %}

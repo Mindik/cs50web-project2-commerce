@@ -1,0 +1,9 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <h2 class="title_page">Active Listings</h2>
+    {% for listing in page_objects.object_list %}
+        {% include "auctions/includes/card.html" %}
+    {% endfor %}
+    {% include "auctions/includes/pagination.html" %}
+{% endblock %}

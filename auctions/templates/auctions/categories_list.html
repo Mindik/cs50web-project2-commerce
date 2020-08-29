@@ -1,0 +1,13 @@
+{% extends "auctions/layout.html" %}
+
+{% block title %}
+    {{ title_cat }}
+{% endblock %}
+
+{% block body %}
+    <h2 class="title_page">{{ title_cat }}</h2>
+    {% for listing in page_objects.object_list %}
+        {% include "auctions/includes/card.html" %}
+    {% endfor %}
+    {% include "auctions/includes/pagination.html" %}
+{% endblock %}
