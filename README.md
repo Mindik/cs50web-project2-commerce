@@ -5,8 +5,7 @@ CS50’s Web Programming with Python and JavaScript
 Project completed in [CS50W](https://www.edx.org/course/cs50s-web-programming-with-python-and-javascript) course.
 
 The project was implemented in [PyCharm](https://www.jetbrains.com/pycharm/) 2020.1.2 (Professional Edition).
-Applied technology [Django](https://www.djangoproject.com/), [HTML5](https://developer.mozilla.org/en-US/docs/Web
-/Guide/HTML/HTML5), [CSS3](https://www.w3schools.com/css/) ([SASS](https://sass-lang.com/)).
+Applied technology [Django](https://www.djangoproject.com/), [HTML5](https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/HTML5), [CSS3](https://www.w3schools.com/css/) ([SASS](https://sass-lang.com/)).
 
 The task can be viewed at the link - [Project 2: Commerce](https://cs50.harvard.edu/web/2020/projects/2/commerce/).
 
